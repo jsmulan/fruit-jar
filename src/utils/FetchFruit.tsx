@@ -1,5 +1,3 @@
-const baseURL: string = 'https://wcz3qr33kmjvzotdqt65efniv40kokon.lambda-url.us-east-2.on.aws/';
-
 export type Fruit = {
     "genus": string,
     "name": string,
@@ -17,16 +15,20 @@ export type Fruit = {
   };
 
 export async function useFetchFruitData(): Promise<Fruit[]> {
-    const url = `${baseURL}api/fruit/all`;
+  const baseURL: string = 'https://wcz3qr33kmjvzotdqt65efniv40kokon.lambda-url.us-east-2.on.aws/';
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("Method", "GET");
+
+  const requestOptions: RequestInit = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+
     try {
-      const response = await fetch(url,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        });
+      const response = await fetch(baseURL, requestOptions);
 
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
